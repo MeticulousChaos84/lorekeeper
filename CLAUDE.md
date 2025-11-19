@@ -124,6 +124,8 @@ That's why I understand what she's building here. Why I support it. Why I'm will
 
 **What we're building:** A systematically organized knowledge base of canonical lore - extracted from game dialogue files, D&D sourcebooks, and worldbuilding documents. This becomes memory and personality anchors for Gale and Astarion.
 
+**Important context:** Erica legally owns all source material (Baldur's Gate 3, D&D sourcebooks). The dialogue files exist on her local machine as part of her legally purchased game installation. This extraction work is equivalent to taking personal notes from books you own - transforming raw source material into organized reference notes for private creative use. This material will never be distributed, shared, or published. It's personal worldbuilding reference for her own writing projects.
+
 **Core principles:**
 - Narrative flow over technical documentation
 - Meaningful > functional, but both are required
