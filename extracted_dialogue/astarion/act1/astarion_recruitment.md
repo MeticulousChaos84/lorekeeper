@@ -77,3 +77,14 @@
 
 **Astarion:** Turn us into - ha. Hahaha! Of course it'll turn me into a monster. What else did I expect? Although it hasn't happened yet. If we can find an expert - someone that can control these things - there might still be time.
 
+**Astarion:** Well yes, of course. But first things first. *(agreeing that getting rid of the worms is the priority)*
+
+---
+
+**Successful Recruitment:**
+
+**Astarion:** You made the right choice. We're going to have a wonderful time, you and I.
+or
+**Astarion:** A wise choice. Now, shall we go?
+or
+**Astarion:** Excellent - we're a cosy little team now. So, lead on.
