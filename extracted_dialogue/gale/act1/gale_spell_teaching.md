@@ -76,30 +76,11 @@
 
 ---
 
-## Romantic Path: Imagining a Kiss
+## Romantic Path: Imagining a Kiss or Romantic Walk
 ---
 
 **Narrator:** *(Player pictures kissing Gale. With tenderness. Then, with passion.)*
-
-**Gale:** I... I didn't think...
-
-**Narrator:** *You perceive quick-fire gusts of embarrassment, trepidation, and finally... elation.*
-
-**Gale:** Sorry, I wasn't expecting... But it is a pleasant image to be sure! *(Warm, with real affection.)*
-
-**Gale:** Most pleasant, in fact. Most welcome. *(Warm, with real affection.)*
-
-**Narrator:** *The Weave evaporates, and as it does so, you realise the night feels suddenly cold and lonesome.* *(All that beautiful magic slips away, and as it does, the player and Gale find themselves in the here and now again.)*
-
-**Gale:** There it goes. How easily things slip away from us, no matter how hard they were in the obtaining. *(The weave disappears – he says this with a passionate melancholy.)*
-
-**Gale:** Good night. I enjoyed sharing a moment of magic with you. *(Warm, with real affection.)*
-
----
-
-## Alternative: Imagining a Romantic Walk
----
-
+or
 **Narrator:** *(Player pictures a romantic walk, hand slipped within Gale's.)*
 
 **Gale:** I... I didn't think...
@@ -110,7 +91,13 @@
 
 **Gale:** Most pleasant, in fact. Most welcome. *(Warm, with real affection.)*
 
-*(Continues as above)*
+---
+
+**Narrator:** *The Weave evaporates, and as it does so, you realise the night feels suddenly cold and lonesome.*
+
+**Gale:** There it goes. How easily things slip away from us, no matter how hard they were in the obtaining. *(The weave disappears – he says this with a passionate melancholy.)*
+
+**Gale:** Good night. I enjoyed sharing a moment of magic with you. *(Warm, with real affection.)*
 
 ---
 
@@ -124,63 +111,3 @@
 **Gale:** There it goes. How easily things slip away from us, no matter how hard they were in the obtaining. *(The weave disappears – he says this with a passionate melancholy.)*
 
 **Gale:** Good night. I enjoyed sharing a moment of magic with you. *(Warm, with real affection.)*
-
----
-
-## Alternative: Different Responses to the Experience
----
-
-**Gale:** Effortless. You're a wonderful teacher.
-
-**Gale:** I know. *(With Han Solo swagger.)*
-
----
-
-**Gale:** Incredible. Though of course, I could have managed it by myself... *(Wizard/Sorcerer/Bard response)*
-
-**Gale:** You're hard to please, aren't you? *(Said with a smile.)*
-
----
-
-**Gale:** It's not quite like praying to her. She feels closer, somehow. *(Cleric of Mystra response)*
-
-**Gale:** Quite so. The Weave is a sensitive conduit.
-
----
-
-## Alternative: Hostile Images (Not Recommended)
----
-
-**Narrator:** *(Player pictures kicking him in the gut.)*
-
-**Gale:** That was... unnecessary. *(Gale and the player are bonded by the Weave, allowing the player to conjure an image in Gale's head that projects your feelings towards him. In this node, the player pictured hitting him in the stomach, which he does not quite appreciate.)*
-
-**Narrator:** *The Weave evaporates, and as it does so, you realise the night feels suddenly cold and lonesome.*
-
-**Gale:** There it goes. I suppose a blow to the stomach upsets the Weave as much as it would me. *(Moody.)*
-
-**Gale:** I'm going to bed. Perhaps this was all a mistake. *(Angered and dismissive.)*
-
----
-
-## Alternative: Failed Attempts
----
-
-**Gale:** Not quite. But this is the easy part. Shall we try again?
-
-**Gale:** No, I'm sorry, but it looks like magic's not on the cards tonight. Perhaps I'm not quite the teacher I fancy myself to be. *(The player failed to perform the necessary steps involved in spell casting. You really wanted the player to succeed, but alas.)*
-
-**Gale:** In any case, don't blame yourself. Mystra can be a fickle mistress. Coy to a tee.
-
----
-
-## Alternative: Player Declines to Continue
----
-
-**Gale:** I'll leave you to it then. Good night.
-
-**Gale:** Good night. Yes. Good night. *(Distracted. Still miles away in his head.)*
-
----
-
-**Gale:** I think it's a mistake to give up so easily, but I cannot force your hand. *(Disappointed.)*
