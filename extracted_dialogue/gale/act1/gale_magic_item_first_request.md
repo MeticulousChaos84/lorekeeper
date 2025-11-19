@@ -1,253 +1,125 @@
-# Gale's First Magic Item Request: A Matter of Trust
-**Location:** Camp or during travel
+# Gale's Condition: The First Magic Item Request
+**Location:** Camp (or encountering Gale)
 **Act:** 1
-**Participants:** Player, Gale
-**Triggers:** After gaining sufficient approval (20+) and before Gale has mentioned his need for magic items
+**Participants:** Gale, Player
+**Triggers:** After traveling together for a while; good approval rating (20+); checkflag `ORI_Gale_IPRD_NeedMagicItem1`
 
 ---
 
-**Gale:** Tiring business, isn't it? All this travelling and adventuring.
+**Gale:** Tiring business, isn't it? All this travelling and adventuring. Why don't we take a little break? Allow ourselves a few moments of rest. Gives me a chance to talk to you about something, well, rather important. *(Suddenly quite serious.)*
 
-**Gale:** I was wondering if I could have a word? There's something rather important I'd like to discuss.
+**Gale:** We've been on the road together for a while now, haven't we? Survived some perils, overcame some obstacles. Ever since you were kind enough to free me from that stone, I've seen you demonstrate remarkable guile and courage.
 
----
+**Narrator:** *Gale recounts specific good deeds the player has performed - resolving conflicts peacefully, protecting the innocent, showing mercy.*
 
-## Player responses to the opening:
-
-**Player:** 'Rather important' no less? All right, go ahead.
-
----
-
-**Player:** I assume this might have something to do with that mysterious protocol of yours? *(If Gale died previously)*
-
-**Gale:** Putting two and two together I see.
-
----
-
-**Player:** Whatever it is, do make it brief. [Gale -1]
-
-**Gale:** As you wish.
-
----
-
-**Player:** No rest for the likes of us, Gale.
-
-**Gale:** What, no rest for the dashing? Pish posh.
-
----
-
-## The Trust Speech
-
-**Gale:** We've been on the road together for a while now, haven't we? Survived some perils, overcame some obstacles.
-
-**Gale:** Ever since you were kind enough to free me from that stone, I've seen you demonstrate remarkable guile and courage.
-
-**Gale:** The way you defused the tension between Zevlor and Aradin. *(If applicable)*
-
-**Gale:** The way you got Kagha to release the girl. *(If applicable)*
-
-**Gale:** The way you got that boy out of a harpy's clutches. *(If applicable)*
-
-**Gale:** In short: I've grown to trust you.
-
----
-
-### Player responses:
-
-**Player:** That's very gratifying to hear. [Gale +1]
+**Gale:** These deeds attest to a strong and noble character. They attest to prime leadership qualities as well. In short: I've grown to trust you.
 
 **Gale:** The reason I make a point of saying this is that I've grown confident enough to tell you something I've yet to tell another living soul. Except for my cat.
-
----
-
-**Player:** Enough with the flattery. Where is this going? [Gale -1]
-
-**Gale:** I was being quite sincere, I assure you.
-
-**Gale:** The reason I make a point of saying this is that I've grown confident enough to tell you something I've yet to tell another living soul. Except for my cat.
-
----
-
-**Player:** Can't say the feeling's exactly mutual.
-
-**Gale:** Be that as it may, my trust is yours.
-
-**Gale:** The reason I make a point of saying this is that I've grown confident enough to tell you something I've yet to tell another living soul. Except for my cat.
-
----
-
-## The Condition
 
 **Gale:** You see, I have this... condition. Very different from the parasite we share, but just as deadly.
 
-**Player:** What kind of condition?
-
 **Gale:** The specifics are rather personal, but suffice it to say that it is a malady I have learned to live with - though not without some effort.
-
----
-
-### Alternative responses:
-
-**Player:** Is it contagious?
 
 **Gale:** No, no - nothing like that. Though if I fail to treat it then the consequences would not be contained to me alone.
 
----
+**Gale:** No, it cannot be cured. And I assure you I've left no page unturned in reaching that conclusion. I can keep this condition under control, as indeed I've done for a significant amount of time, but that was under different circumstances altogether. Home, in Waterdeep.
 
-**Player:** Can it be cured?
+**Gale:** What it comes down to is this: every so often I need to get my hands on a powerful magical item and absorb the Weave inside.
 
-**Gale:** No, it cannot be cured. And I assure you I've left no page unturned in reaching that conclusion.
-
-**Gale:** I can keep this condition under control, as indeed I've done for a significant amount of time, but that was under different circumstances altogether. Home, in Waterdeep.
-
----
-
-## The Treatment: Consuming Magic
-
-**Gale:** Out here I'm afforded no such luxury. I'm in need of powerful artefacts - items suffused with the Weave - that I can consume and repurpose for my own ends.
-
----
-
-### Player questions:
-
-**Player:** Your illness causes you to consume raw magic? I'm going to need the details...
-
-**Gale:** I can say no more on the matter - not now anyway.
-
-**Gale:** Just trust me when I say it's all of vital importance.
-
----
-
-**Player:** What kind of items are we talking about exactly?
+**Gale:** I can say no more on the matter - not now anyway. Just trust me when I say it's all of vital importance.
 
 **Gale:** Staffs, tomes, cowls - the form doesn't matter, so long as it's brimming with Weave.
 
----
-
-**Player:** Wouldn't that ruin the item?
-
 **Gale:** Trust me when I say - the loss of the occasional wizard's staff or tome of enchantment is a bargain given the cost of allowing me to deteriorate.
 
----
+**Gale:** I'll spare you the finer details, but it begins with a simple biological deterioration. Muscle spasms, disorientation, a slight ringing in the ears. And if left for too long... Catastrophe. *(Matter of fact. With a levity you don't expect to hear the word spoken.)*
 
-**Player:** What happens if you don't consume these artefacts?
-
-**Gale:** I'll spare you the finer details, but it begins with a simple biological deterioration. Muscle spasms, disorientation, a slight ringing in the ears. And if left for too long...
-
-**Gale:** Catastrophe. *(Matter of fact. With a levity you don't expect to hear the word spoken.)*
-
----
-
-**Player:** Are you telling me you're *addicted* to magic?
-
-**Gale:** No - no, it's nothing like that. Magic isn't a narcotic to me, it's quite literally a life-saver.
-
-**Gale:** I would not burden anyone other than myself with this were the stakes not so high, and the means of obtaining such artefacts challenging for a humble wizard to face alone.
-
----
-
-**Player:** So you've been lying to me this whole time. Wonderful.
-
-**Gale:** I am what I am - I never lied to you, I've merely been economical with the truth.
-
----
-
-### Healing-related responses:
-
-**Player:** I think I might have a dock leaf in my bag, or some medicinal berries... *(Ranger)*
-
-**Player:** Nature provides the cure to most ailments. Tell me your symptoms, and I might prepare a poultice or potion. *(Druid)*
-
-**Player:** I could pray on your behalf. My god may offer some guidance on how you might be cured. *(Cleric)*
-
-**Gale:** Thank you for the offer, but the treatment for my condition is very specific.
-
----
-
-## The Request
+**Gale:** It's been days since I last consumed an artefact - since before we were abducted. It is time. And by that I mean it's *imperative* that I find and consume strands of Weave at the earliest possible juncture.
 
 **Gale:** That is why I turn to you. I need you to help me find magic items to consume. It is vital. Dare I say it, critical.
 
----
+**Gale:** As luck would have it, Faerûn is full of them, though I do feel obliged to point out that items of power tend to be in the hands of the powerful. There will be danger involved - or great cost.
 
-### Player responses:
+**Gale:** Splendid. A bit of boldness will serve us well.
 
-**Player:** Where do you suggest we find the artefacts you need?
+**Gale:** As luck would have it, you're already primed to give me exactly what I need... *(If player has suitable magic item)*
 
-**Gale:** Anywhere and everywhere. The druids might well have something of utility stowed away in this grove. The goblins may be monstrous creatures, but I bet they can point us in the direction of something valuable.
+**Gale:** Thank you. I see my trust in you was not misplaced! I'm sure we won't have to look very far to find what I need: Faerûn overflows with magic-infused treasure.
 
-**Gale:** Treasure is as treasure does - and a magic trinket can be plucked from any manner of deadfalls, barrow-mounds, and forgotten cellars.
-
-**Gale:** Trust me: when the time comes and you have a magic item you think you could live without, you'll know.
+**Gale:** I know the allure magic artefacts hold. I understand their value and their power. All this to say: I understand the sacrifice I ask of you. But if I may be so bold: it's for a very good cause indeed. I hope I can count on you.
 
 ---
 
-**Player:** I fail to see why you need me to help you with this. You've done fine without me so far.
+## Alternative Path: Player Demands Explanation Before Agreeing
+---
+
+**Gale:** Valid question. If not out of the simple goodness of your heart, then perhaps your own self-interest might be sufficient motivation. Having a wizard like me around is quite the boon when facing the perils that stalk these lands. It will be far harder for me to assist you if I can barely stand upright.
+
+**Gale:** I know that what I ask may seem unreasonable, but I promise I only make such a request because it is so *incredibly* important. Please - trust me. Your help could be the difference between life and death.
+
+---
+
+## Alternative Path: Player Questions Why Gale Can't Do This Alone
+---
 
 **Gale:** A fair point - however, until recently I was able to rely on a supply of artefacts stored in my tower in Waterdeep. A supply that has now run dry.
 
-**Gale:** The reality of the matter is that a lone wizard with a chronic impairment such as my own is not in the most ideal of situations with regards to self-defence.
-
-**Gale:** I would not burden anyone other than myself with this were the stakes not so high, and the means of obtaining such artefacts challenging for a humble wizard to face alone.
+**Gale:** The reality of the matter is that a lone wizard with a chronic impairment such as my own is not in the most ideal of situations with regards to self-defence. The manner of artefacts I need are not often found waiting patiently on a shop-keep's shelf. One usually has to lift them delicately from trap-filled tombs or prise them from the hands of violent ne'erdowells.
 
 ---
 
-**Player:** I'd be happy to help.
+## Alternative Path: Player Initially Refuses, Gale Persists
+---
 
-**Gale:** Thank you. I appreciate it.
+**Gale:** I understand that I'm asking for a lot, but I can't tell you everything. Not yet anyway. Please reconsider.
 
-*(Player agrees to help)*
+**Gale:** No. *(In response to "You aren't going to drop this, are you?")*
+
+**Gale:** I don't know how else I can explain the imperative nature of this issue. You can't simply dismiss it. *(Getting annoyed/hint of disbelief that you're refusing him so adamantly)*
 
 ---
 
-**Player:** Sounds like no 'condition' I've ever heard of. I'd say you're just fishing for loot. [Gale -1]
+## Alternative Path: Player Uses Tadpole to Probe (Success)
+---
 
-**Gale:** Believe what you will, but when the time comes and the world starts collapsing around your ears, I imagine you'll reconsider your position.
+**Narrator:** *You become one with Gale's mind and you can feel something sinister oppressing you.* *(Mind meld)*
+
+**Narrator:** *It's... inside of you, a mighty darkness radiating from your chest.* *(Mind meld)*
+
+**Narrator:** *You could try to push further, but your hold over Gale feels brittle. It won't be easy delving deeper without him noticing.* *(Mind meld)*
+
+**Narrator:** *You see through Gale's eyes, staring down the corridors of a dread memory. A book, bound, then suddenly opened.* *(Mind meld)*
+
+**Narrator:** *Inside there are no pages, only a swirling mass of blackest Weave that pounces.* *(Mind meld)*
+
+**Narrator:** *It's teeth, it's claws, it's unstoppable as it digs through and becomes part of you. And gods, is it ever-hungry...* *(Mind meld)*
+
+**Gale:** Keeping me in suspense, are you? Come on, tell me, do we have an agreement or not?
 
 ---
 
-**Player:** Honestly, that sounds terrible. I see no upside to this for me. [Gale -2]
+## Alternative Path: Player Admits Using Tadpole (Gale Discovers)
+---
 
-**Gale:** Then I suggest you look closer.
+**Gale:** What?! *(Surprised and angry.)*
 
-**Gale:** If I may be so bold as to jog your memory, do you happen to recall the charred husk known as the Sword Coast? That's what awaits us if my condition remains untreated.
+**Gale:** You used that thing against me? And you saw! After I told you... *(Angry)*
+
+**Gale:** You had no right! None at all! I've a good mind to turn around and depart this little company of ours immediately. I'd rather be alone than spend another moment in the presence of someone inclined to such unjustified invasions of privacy.
+
+**Gale:** The need remains debatable, but I recognise your responsibility. *(Still angry, but the player convinced him to stay, so slightly softer.)* Perhaps my reaction was a tad volatile, the irony of which is not lost on me. Though it needs remain so on you, for the time being.
+
+**Gale:** I hope that the glimpse you caught on my condition convinced you of the urgency in treating it. Can I count on you to give me the artefacts I need?
 
 ---
 
-## Conclusion: Agreement to Help
-
-**Gale:** It's a strange way of earning one's trust, I know. Concealing a truth and then slamming you in the face with it. But I hope you understand that I had no other option.
-
-**Gale:** Now that you do know the truth, I hope you'll keep your eyes open for suitable items as we explore the area. I'm quite sure we'll find the necessary goods. That is, if you're still willing to help me.
-
-**Player:** Very well. I'll help you manage this condition of yours.
-
-**Gale:** Thank you. I appreciate it.
-
-**Gale:** But I suspect it's best I say no more on the matter for the time being. I'll notify you when I need something.
-
+## Alternative Path: Low Approval/Previously Refused
 ---
 
-## Alternative: Refusal
+**Gale:** Spare me a moment, if you please. I've something important to discuss with you. *(A bit more sombre and serious here. In this intro he feels compelled to speak out of necessity, but he doesn't really want to.)*
 
-**Player:** No. I do not.
+**Gale:** We've been travelling together for a while now and I think it's safe to say we don't always see eye to eye. That said, necessity compels me to set aside my reservations. I have no choice but to speak.
 
-**Gale:** I am a fool. A fool to have trusted you. *(Angry)*
+**Gale:** You see, I have this... condition. Very different from the parasite we share, but just as deadly.
 
----
-
-## Alternative: Demanding Explanation
-
-**Player:** Let us agree on actions first and explanations later. Yes?
-
-**Player:** Very well. I'll help you, though I expect an explanation eventually.
-
-**Gale:** Thank you. I appreciate it.
-
-**Gale:** But I suspect it's best I say no more on the matter for the time being. I'll notify you when I need something.
-
----
-
-**Player:** Sorry - that's not going work for me. I need an explanation.
-
-*(Conversation continues with Gale being forced to explain further or ending negatively depending on player's persistence)*
+*(Conversation continues as above)*
