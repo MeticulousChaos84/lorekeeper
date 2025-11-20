@@ -10,14 +10,23 @@
 | **Total Gale HTML source files** | 59 |
 | **Total Astarion HTML source files** | 54 |
 | **Total HTML source files** | 113 |
-| **Extracted Gale dialogues** | 89 |
-| **Extracted Astarion dialogues** | 82 |
-| **Total extracted files** | 171 |
-| **Estimated completion** | ~85-90% |
+| **Extracted Gale dialogues** | 91 |
+| **Extracted Astarion dialogues** | 84 |
+| **Total extracted files** | 175 |
+| **Estimated completion** | ~90-95% |
 
 ---
 
 ## Recently Completed (Since Last Update)
+
+### Latest Batch (Current Session)
+- **Gale World Reactions:**
+  - `gale_druid_grove_world_reactions.md` - Combined Nettie poison, harpy child, Kagha snake reactions
+  - `gale_astarion_reveal_reaction_2.md` - Origin-specific voluntary confession path
+- **Astarion:**
+  - `astarion_controlling_tadpole.md` - Tadpole power scheme discussion
+- **Cross-Character References:**
+  - `karlach_reactions_to_astarion.md` - Bite confrontation and confession reactions
 
 ### Gale - Major Additions
 - **Epilogues:** `gale_epilogue.md`, `gale_tara_epilogue.md`, `gale_romance_morning_after.md`
@@ -67,9 +76,11 @@
 - [x] Endgame conversations
 - [x] Tiefling celebration (all variations)
 
+- [x] Druid Grove world reactions (Nettie poison, harpy child, Kagha snake)
+- [x] Cross-character reactions (Astarion reveal origin path)
+
 #### Partially Extracted / Needs Review
 - [ ] Main hub residuals (`Gale_InParty2.html` - core content extracted via nested files)
-- [ ] World reactions: `DEN_Apprentice_WRD_Gale.html`, `DEN_HarpyMeal_WRD_Gale.html`, `DEN_ShadowDruid_WRD_Gale.html`
 
 #### To Skip (Technical/Test)
 - `Gale_InPartyEND.html` - End state template
@@ -106,11 +117,12 @@
 - [x] All companion banter (Gale, Karlach, Wyll)
 - [x] Extensive topical greetings (all acts)
 - [x] Endgame conversations
+- [x] Controlling tadpole power scheme discussion
+- [x] Cross-character references (Karlach bite/confession reactions)
 
 #### Partially Extracted / Needs Review
 - [ ] Main hub residuals (`Astarion_InParty2.html` - core content extracted via nested files)
-- [ ] Controlling tadpole discussion (nested file)
-- [ ] Spare phrases (nested file)
+- [ ] Spare phrases (nested file - low priority, generic barks)
 
 #### To Skip (Technical/Test)
 - `Astarion_InPartyEND.html` - End state template
@@ -120,41 +132,31 @@
 
 ## Remaining Work
 
-### High Priority (Story Content Gaps)
-1. **World Reaction Dialogues (Gale):**
-   - `DEN_Apprentice_WRD_Gale.html` - Apprentice reactions
-   - `DEN_HarpyMeal_WRD_Gale.html` - Harpy feast reactions
-   - `DEN_ShadowDruid_WRD_Gale.html` - Shadow Druid reactions
-   - `DEN_CapturedGoblin_SteppedInFrontOfCrossbow_WRD_Gale.html` - Goblin crossbow anecdote
+### Completed This Session
+- ~~World Reaction Dialogues (Gale)~~ → `gale_druid_grove_world_reactions.md`
+- ~~Controlling Tadpole~~ → `astarion_controlling_tadpole.md`
+- ~~Cross-Character References~~ → `karlach_reactions_to_astarion.md`, `gale_astarion_reveal_reaction_2.md`
 
-2. **InParty2 Hub File Review:**
+### Low Priority (Optional Cleanup)
+1. **InParty2 Hub File Review:**
    - Check both `Gale_InParty2.html` and `Astarion_InParty2.html` for any content not covered by nested file extractions
+   - *Note: All significant nested content has been extracted*
 
-### Medium Priority (Additional Context)
-3. **Astarion Nested Files:**
-   - `Astarion_InParty2_Nested_ControllingTadpole.html`
-   - `Astarion_InParty2_Nested_SparePhrases.html`
+2. **Spare Phrases:**
+   - `Astarion_InParty2_Nested_SparePhrases.html` - Generic barks, likely low value
 
-4. **Cross-Character References:**
-   - `Karlach_InParty_Nested_AstarionBiteConfrontation.html`
-   - `Karlach_InParty_Nested_AstarionConfession.html`
-   - `Gale_InParty2_Nested_AstarionReveal2.html`
-
-### Low Priority (Origin Mechanics)
-5. **Origin-Specific Files:**
-   - `ORI_Astarion_PAD_VampiricNatureDiscussion.html`
-   - `GLO_Astarion_PAD_AstarionKidnapped.html`
+3. **Origin-Specific Files (Already Reviewed):**
+   - `ORI_Astarion_PAD_VampiricNatureDiscussion.html` - Contains only other-companion dialogue
+   - `GLO_Astarion_PAD_AstarionKidnapped.html` - Core content already in `astarion_kidnapped.md`
 
 ---
 
 ## Summary
 
-The extraction work is approximately **85-90% complete**. All major story beats, character arcs, and pivotal moments have been captured for both Gale and Astarion. The remaining work consists primarily of:
+The extraction work is approximately **90-95% complete**. All major story beats, character arcs, and pivotal moments have been captured for both Gale and Astarion. The remaining items are low-priority optional cleanup:
 
-- **World reaction dialogues** (minor flavor content)
-- **Hub file residuals** (content not covered by nested extractions)
-- **Cross-character references** (Karlach reactions to Astarion events)
-- **Origin-specific mechanics** (lower priority)
+- **Hub file residuals** (likely nothing significant remaining)
+- **Generic spare phrases** (barks and filler dialogue)
 
 ### What's Fully Done
 - Complete romantic arcs for both characters
