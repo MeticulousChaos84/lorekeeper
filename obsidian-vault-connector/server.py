@@ -59,15 +59,15 @@ server = Server("obsidian-vault-connector")
 # =============================================================================
 # These do the actual work of talking to Obsidian's REST API
 
-def get_headers(include_content_type: bool = False) -> dict:
+def get_headers(content_type: str | None = None) -> dict:
     """
     Build the headers for Obsidian REST API requests.
     The API key is required - without it, Obsidian won't talk to us.
 
     Args:
-        include_content_type: Only set to True when sending a request body.
-                             GET/DELETE requests don't have bodies, so they
-                             shouldn't claim to be sending JSON.
+        content_type: The Content-Type for the request body, if any.
+                     Use "text/markdown" for note content, "application/json" for JSON.
+                     Leave None for GET/DELETE requests with no body.
     """
     headers = {
         # Accept tells the API what format we want BACK
@@ -75,54 +75,150 @@ def get_headers(include_content_type: bool = False) -> dict:
     }
     # Content-Type tells the API what format we're SENDING
     # Only include this when we actually have a body to send
-    if include_content_type:
-        headers["Content-Type"] = "application/json"
+    if content_type:
+        headers["Content-Type"] = content_type
 
     if OBSIDIAN_API_KEY:
         headers["Authorization"] = f"Bearer {OBSIDIAN_API_KEY}"
     return headers
 
 
-async def obsidian_request(
-    method: str,
-    endpoint: str,
-    data: dict | None = None
-) -> dict | str | list:
+async def obsidian_get(endpoint: str, params: dict | None = None) -> dict | str | list:
     """
-    Make a request to the Obsidian REST API.
-
-    This is our universal "talk to Obsidian" function.
+    Make a GET request to the Obsidian REST API.
 
     Args:
-        method: HTTP method (GET, POST, PUT, DELETE, PATCH)
-        endpoint: API endpoint (e.g., "/vault/", "/search/")
-        data: Optional JSON payload for POST/PUT requests
-
-    Returns:
-        The API response (could be dict, string, or list depending on endpoint)
+        endpoint: API endpoint (e.g., "/vault/", "/search/simple/")
+        params: Optional query parameters
     """
     url = f"{OBSIDIAN_API_URL}{endpoint}"
 
     async with httpx.AsyncClient() as client:
         try:
-            # GET and DELETE don't have bodies - no Content-Type needed
-            # POST, PUT, PATCH send data - include Content-Type
-            if method == "GET":
-                response = await client.get(url, headers=get_headers(include_content_type=False))
-            elif method == "POST":
-                response = await client.post(url, headers=get_headers(include_content_type=True), json=data)
-            elif method == "PUT":
-                response = await client.put(url, headers=get_headers(include_content_type=True), json=data)
-            elif method == "DELETE":
-                response = await client.delete(url, headers=get_headers(include_content_type=False))
-            elif method == "PATCH":
-                response = await client.patch(url, headers=get_headers(include_content_type=True), json=data)
+            response = await client.get(
+                url,
+                headers=get_headers(),  # No Content-Type for GET
+                params=params
+            )
+            response.raise_for_status()
+
+            content_type = response.headers.get("content-type", "")
+            if "application/json" in content_type:
+                return response.json()
             else:
-                return {"error": f"Unknown HTTP method: {method}"}
+                return response.text
+
+        except httpx.HTTPStatusError as e:
+            return {"error": f"HTTP {e.response.status_code}: {e.response.text}"}
+        except httpx.ConnectError:
+            return {
+                "error": "Could not connect to Obsidian. "
+                "Is it running? Is the Local REST API plugin enabled?"
+            }
+        except Exception as e:
+            return {"error": str(e)}
+
+
+async def obsidian_write(
+    method: str,
+    endpoint: str,
+    content: str
+) -> dict | str | list:
+    """
+    Write content to the Obsidian REST API (for note creation/updates).
+
+    The Obsidian API expects raw markdown content with text/markdown Content-Type,
+    NOT JSON-wrapped content.
+
+    Args:
+        method: HTTP method (PUT for create/overwrite, POST for append)
+        endpoint: API endpoint (e.g., "/vault/path/to/note.md")
+        content: Raw markdown content to write
+    """
+    url = f"{OBSIDIAN_API_URL}{endpoint}"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            # Send raw content with text/markdown Content-Type
+            headers = get_headers(content_type="text/markdown")
+
+            if method == "PUT":
+                response = await client.put(url, headers=headers, content=content)
+            elif method == "POST":
+                response = await client.post(url, headers=headers, content=content)
+            else:
+                return {"error": f"Unsupported method for write: {method}"}
 
             response.raise_for_status()
 
-            # Some endpoints return plain text, some return JSON
+            content_type = response.headers.get("content-type", "")
+            if "application/json" in content_type:
+                return response.json()
+            else:
+                return response.text
+
+        except httpx.HTTPStatusError as e:
+            return {"error": f"HTTP {e.response.status_code}: {e.response.text}"}
+        except httpx.ConnectError:
+            return {
+                "error": "Could not connect to Obsidian. "
+                "Is it running? Is the Local REST API plugin enabled?"
+            }
+        except Exception as e:
+            return {"error": str(e)}
+
+
+async def obsidian_delete(endpoint: str) -> dict | str | list:
+    """
+    Delete a file via the Obsidian REST API.
+
+    Args:
+        endpoint: API endpoint (e.g., "/vault/path/to/note.md")
+    """
+    url = f"{OBSIDIAN_API_URL}{endpoint}"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.delete(url, headers=get_headers())
+            response.raise_for_status()
+
+            content_type = response.headers.get("content-type", "")
+            if "application/json" in content_type:
+                return response.json()
+            else:
+                return response.text
+
+        except httpx.HTTPStatusError as e:
+            return {"error": f"HTTP {e.response.status_code}: {e.response.text}"}
+        except httpx.ConnectError:
+            return {
+                "error": "Could not connect to Obsidian. "
+                "Is it running? Is the Local REST API plugin enabled?"
+            }
+        except Exception as e:
+            return {"error": str(e)}
+
+
+async def obsidian_post_json(endpoint: str, data: dict) -> dict | str | list:
+    """
+    Make a POST request with JSON body to the Obsidian REST API.
+    Used for plugin endpoints that expect JSON.
+
+    Args:
+        endpoint: API endpoint
+        data: JSON data to send
+    """
+    url = f"{OBSIDIAN_API_URL}{endpoint}"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                url,
+                headers=get_headers(content_type="application/json"),
+                json=data
+            )
+            response.raise_for_status()
+
             content_type = response.headers.get("content-type", "")
             if "application/json" in content_type:
                 return response.json()
@@ -400,50 +496,51 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
             directory = arguments.get("directory", "")
             # The REST API uses /vault/ endpoint for file listing
             endpoint = f"/vault/{directory}" if directory else "/vault/"
-            result = await obsidian_request("GET", endpoint)
+            result = await obsidian_get(endpoint)
 
         elif name == "vault_read_note":
             path = arguments["path"]
             # Reading a specific file
-            result = await obsidian_request("GET", f"/vault/{path}")
+            result = await obsidian_get(f"/vault/{path}")
 
         elif name == "vault_create_note":
             path = arguments["path"]
             content = arguments["content"]
-            # PUT creates or overwrites
-            result = await obsidian_request("PUT", f"/vault/{path}", {"content": content})
+            # PUT creates or overwrites - send raw markdown content
+            result = await obsidian_write("PUT", f"/vault/{path}", content)
             if not isinstance(result, dict) or "error" not in result:
                 result = {"success": True, "message": f"Created note: {path}"}
 
         elif name == "vault_update_note":
             path = arguments["path"]
             content = arguments["content"]
-            result = await obsidian_request("PUT", f"/vault/{path}", {"content": content})
+            # PUT overwrites - send raw markdown content
+            result = await obsidian_write("PUT", f"/vault/{path}", content)
             if not isinstance(result, dict) or "error" not in result:
                 result = {"success": True, "message": f"Updated note: {path}"}
 
         elif name == "vault_append_to_note":
             path = arguments["path"]
             content = arguments["content"]
-            # POST with content appends to the file
-            result = await obsidian_request("POST", f"/vault/{path}", {"content": content})
+            # POST appends - send raw markdown content
+            result = await obsidian_write("POST", f"/vault/{path}", content)
             if not isinstance(result, dict) or "error" not in result:
                 result = {"success": True, "message": f"Appended to note: {path}"}
 
         elif name == "vault_delete_note":
             path = arguments["path"]
-            result = await obsidian_request("DELETE", f"/vault/{path}")
+            result = await obsidian_delete(f"/vault/{path}")
             if not isinstance(result, dict) or "error" not in result:
                 result = {"success": True, "message": f"Deleted note: {path}"}
 
         elif name == "vault_search":
             query = arguments["query"]
-            # The search endpoint
-            result = await obsidian_request("POST", "/search/", {"query": query})
+            # Search uses GET with query parameter
+            result = await obsidian_get("/search/simple/", params={"query": query})
 
         elif name == "vault_get_active_note":
             # Get the currently active file
-            result = await obsidian_request("GET", "/active/")
+            result = await obsidian_get("/active/")
 
         # =====================================================================
         # OMNISEARCH PLUGIN
@@ -451,8 +548,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
 
         elif name == "omnisearch_search":
             query = arguments["query"]
-            # Omnisearch exposes its API at /omnisearch/
-            result = await obsidian_request("POST", "/omnisearch/", {"query": query})
+            # Omnisearch exposes its API - try GET with query param first
+            result = await obsidian_get("/omnisearch/", params={"query": query})
 
         # =====================================================================
         # SMART CONNECTIONS PLUGIN
@@ -461,8 +558,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
         elif name == "smart_connections_find_similar":
             path = arguments["path"]
             # Smart Connections API endpoint for finding similar notes
-            result = await obsidian_request(
-                "POST",
+            result = await obsidian_post_json(
                 "/smart-connections/find-similar/",
                 {"path": path}
             )
@@ -470,8 +566,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
         elif name == "smart_connections_search":
             query = arguments["query"]
             # Smart Connections semantic search
-            result = await obsidian_request(
-                "POST",
+            result = await obsidian_post_json(
                 "/smart-connections/search/",
                 {"query": query}
             )
