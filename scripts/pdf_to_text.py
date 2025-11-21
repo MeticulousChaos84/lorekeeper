@@ -5,7 +5,7 @@ Converts all PDFs in worldbuilding folder to searchable text files.
 """
 
 import os
-import pdfplumber
+from PyPDF2 import PdfReader
 from pathlib import Path
 
 def extract_text_from_pdf(pdf_path: str, output_path: str) -> bool:
@@ -13,18 +13,18 @@ def extract_text_from_pdf(pdf_path: str, output_path: str) -> bool:
     try:
         print(f"Processing: {os.path.basename(pdf_path)}")
 
-        with pdfplumber.open(pdf_path) as pdf:
-            all_text = []
-            total_pages = len(pdf.pages)
+        reader = PdfReader(pdf_path)
+        all_text = []
+        total_pages = len(reader.pages)
 
-            for i, page in enumerate(pdf.pages):
-                if i % 50 == 0:
-                    print(f"  Page {i+1}/{total_pages}...")
+        for i, page in enumerate(reader.pages):
+            if i % 50 == 0:
+                print(f"  Page {i+1}/{total_pages}...")
 
-                text = page.extract_text()
-                if text:
-                    all_text.append(f"\n--- PAGE {i+1} ---\n")
-                    all_text.append(text)
+            text = page.extract_text()
+            if text:
+                all_text.append(f"\n--- PAGE {i+1} ---\n")
+                all_text.append(text)
 
         # Write to output file
         with open(output_path, 'w', encoding='utf-8') as f:
