@@ -59,14 +59,25 @@ server = Server("obsidian-vault-connector")
 # =============================================================================
 # These do the actual work of talking to Obsidian's REST API
 
-def get_headers() -> dict:
+def get_headers(include_content_type: bool = False) -> dict:
     """
     Build the headers for Obsidian REST API requests.
     The API key is required - without it, Obsidian won't talk to us.
+
+    Args:
+        include_content_type: Only set to True when sending a request body.
+                             GET/DELETE requests don't have bodies, so they
+                             shouldn't claim to be sending JSON.
     """
     headers = {
-        "Content-Type": "application/json",
+        # Accept tells the API what format we want BACK
+        "Accept": "application/json",
     }
+    # Content-Type tells the API what format we're SENDING
+    # Only include this when we actually have a body to send
+    if include_content_type:
+        headers["Content-Type"] = "application/json"
+
     if OBSIDIAN_API_KEY:
         headers["Authorization"] = f"Bearer {OBSIDIAN_API_KEY}"
     return headers
@@ -94,16 +105,18 @@ async def obsidian_request(
 
     async with httpx.AsyncClient() as client:
         try:
+            # GET and DELETE don't have bodies - no Content-Type needed
+            # POST, PUT, PATCH send data - include Content-Type
             if method == "GET":
-                response = await client.get(url, headers=get_headers())
+                response = await client.get(url, headers=get_headers(include_content_type=False))
             elif method == "POST":
-                response = await client.post(url, headers=get_headers(), json=data)
+                response = await client.post(url, headers=get_headers(include_content_type=True), json=data)
             elif method == "PUT":
-                response = await client.put(url, headers=get_headers(), json=data)
+                response = await client.put(url, headers=get_headers(include_content_type=True), json=data)
             elif method == "DELETE":
-                response = await client.delete(url, headers=get_headers())
+                response = await client.delete(url, headers=get_headers(include_content_type=False))
             elif method == "PATCH":
-                response = await client.patch(url, headers=get_headers(), json=data)
+                response = await client.patch(url, headers=get_headers(include_content_type=True), json=data)
             else:
                 return {"error": f"Unknown HTTP method: {method}"}
 
