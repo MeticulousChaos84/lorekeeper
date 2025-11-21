@@ -535,8 +535,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
 
         elif name == "vault_search":
             query = arguments["query"]
-            # Search uses GET with query parameter
-            result = await obsidian_get("/search/simple/", params={"query": query})
+            # Search uses POST with JSON body
+            result = await obsidian_post_json("/search/", {"query": query})
 
         elif name == "vault_get_active_note":
             # Get the currently active file
