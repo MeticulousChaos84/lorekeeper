@@ -236,6 +236,47 @@ async def obsidian_post_json(endpoint: str, data: dict) -> dict | str | list:
             return {"error": str(e)}
 
 
+async def obsidian_post_with_params(endpoint: str, params: dict) -> dict | str | list:
+    """
+    Make a POST request with query parameters (no body).
+
+    This is for weird endpoints like /search/simple/ that use POST
+    but take their parameters from the URL query string instead of
+    the request body. Unusual API design, but we work with what we have.
+
+    Args:
+        endpoint: API endpoint (e.g., "/search/simple/")
+        params: Query parameters to include in the URL
+    """
+    url = f"{OBSIDIAN_API_URL}{endpoint}"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            # POST request with params in URL, no body
+            response = await client.post(
+                url,
+                headers=get_headers(),  # No Content-Type since no body
+                params=params
+            )
+            response.raise_for_status()
+
+            content_type = response.headers.get("content-type", "")
+            if "application/json" in content_type:
+                return response.json()
+            else:
+                return response.text
+
+        except httpx.HTTPStatusError as e:
+            return {"error": f"HTTP {e.response.status_code}: {e.response.text}"}
+        except httpx.ConnectError:
+            return {
+                "error": "Could not connect to Obsidian. "
+                "Is it running? Is the Local REST API plugin enabled?"
+            }
+        except Exception as e:
+            return {"error": str(e)}
+
+
 # =============================================================================
 # TOOL DEFINITIONS
 # =============================================================================
@@ -535,8 +576,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
 
         elif name == "vault_search":
             query = arguments["query"]
-            # Search uses POST with JSON body
-            result = await obsidian_post_json("/search/", {"query": query})
+            # Simple search uses POST with query params in URL (weird but that's the API)
+            # See OpenAPI spec: POST /search/simple/ with ?query=... parameter
+            result = await obsidian_post_with_params(
+                "/search/simple/",
+                {"query": query, "contextLength": 100}
+            )
 
         elif name == "vault_get_active_note":
             # Get the currently active file
