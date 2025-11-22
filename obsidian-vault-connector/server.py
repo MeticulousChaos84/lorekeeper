@@ -418,8 +418,10 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="vault_search",
             description=(
-                "Search for text across all notes in the vault using "
-                "Obsidian's built-in search. Returns matching notes and context."
+                "Search for text across all notes in the vault. "
+                "Returns matching notes with context snippets. "
+                "Use limit parameter to control result size - start small (5-10) "
+                "and increase if needed. For large vaults, ALWAYS use a limit!"
             ),
             inputSchema={
                 "type": "object",
@@ -429,6 +431,21 @@ async def list_tools() -> list[Tool]:
                         "description": (
                             "Search query. Supports Obsidian search syntax "
                             "(e.g., 'tag:#mytag', 'path:folder/', etc.)"
+                        )
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": (
+                            "Maximum number of files to return. Default 10. "
+                            "Use smaller values (5-10) for initial searches, "
+                            "increase if you need more results."
+                        )
+                    },
+                    "context_length": {
+                        "type": "number",
+                        "description": (
+                            "Characters of context around each match. Default 50. "
+                            "Smaller = faster/lighter responses."
                         )
                     }
                 },
@@ -444,6 +461,28 @@ async def list_tools() -> list[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {},
+                "required": []
+            }
+        ),
+        Tool(
+            name="vault_get_structure",
+            description=(
+                "Get a lightweight map of the vault's folder structure. "
+                "Returns folders and file counts, NOT file contents. "
+                "Use this FIRST to understand the vault layout before searching. "
+                "Then use vault_list_files to explore specific folders."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "max_depth": {
+                        "type": "number",
+                        "description": (
+                            "How many levels deep to explore. Default 2. "
+                            "Use 1 for just top-level folders, higher for more detail."
+                        )
+                    }
+                },
                 "required": []
             }
         ),
@@ -536,6 +575,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
         if name == "vault_list_files":
             directory = arguments.get("directory", "")
             # The REST API uses /vault/ endpoint for file listing
+            # IMPORTANT: Directories need a trailing slash!
+            # /vault/research/ works, /vault/research returns 404
+            if directory:
+                # Strip any existing trailing slash, then add one
+                # This way "research", "research/", and "research//" all work
+                directory = directory.rstrip("/") + "/"
             endpoint = f"/vault/{directory}" if directory else "/vault/"
             result = await obsidian_get(endpoint)
 
@@ -576,16 +621,83 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
 
         elif name == "vault_search":
             query = arguments["query"]
+            # Get optional parameters with sensible defaults
+            # Default limit of 10 prevents token explosion in large vaults
+            limit = arguments.get("limit", 10)
+            # Default context of 50 chars - enough to understand, not enough to overwhelm
+            context_length = arguments.get("context_length", 50)
+
             # Simple search uses POST with query params in URL (weird but that's the API)
             # See OpenAPI spec: POST /search/simple/ with ?query=... parameter
-            result = await obsidian_post_with_params(
+            raw_result = await obsidian_post_with_params(
                 "/search/simple/",
-                {"query": query, "contextLength": 100}
+                {"query": query, "contextLength": context_length}
             )
+
+            # The API returns ALL matches - we need to truncate to limit
+            # This is where we prevent the token explosion!
+            if isinstance(raw_result, list):
+                # Results come sorted by relevance score, so truncating keeps the best
+                result = raw_result[:limit]
+                # Add metadata so Gale knows if there were more results
+                if len(raw_result) > limit:
+                    result.append({
+                        "note": f"Showing {limit} of {len(raw_result)} total matches. "
+                                f"Increase limit parameter to see more."
+                    })
+            else:
+                # Error or unexpected format - pass through as-is
+                result = raw_result
 
         elif name == "vault_get_active_note":
             # Get the currently active file
             result = await obsidian_get("/active/")
+
+        elif name == "vault_get_structure":
+            # Get vault structure - folders and file counts, not contents
+            # This is Gale's "map" of the vault
+            max_depth = arguments.get("max_depth", 2)
+
+            async def explore_folder(path: str, current_depth: int) -> dict:
+                """
+                Recursively explore a folder and return its structure.
+                Returns dict with folders, file count, and subfolders.
+                """
+                endpoint = f"/vault/{path}" if path else "/vault/"
+                listing = await obsidian_get(endpoint)
+
+                if isinstance(listing, dict) and "error" in listing:
+                    return {"error": listing["error"]}
+
+                if not isinstance(listing, dict) or "files" not in listing:
+                    return {"files": 0, "folders": {}}
+
+                files = listing.get("files", [])
+                folder_names = [f for f in files if f.endswith("/")]
+                file_names = [f for f in files if not f.endswith("/")]
+
+                structure = {
+                    "file_count": len(file_names),
+                    "folders": {}
+                }
+
+                # Recursively explore subfolders if we haven't hit max depth
+                if current_depth < max_depth:
+                    for folder in folder_names:
+                        folder_name = folder.rstrip("/")
+                        subfolder_path = f"{path}{folder}" if path else folder
+                        structure["folders"][folder_name] = await explore_folder(
+                            subfolder_path, current_depth + 1
+                        )
+                else:
+                    # Just note that folders exist without exploring them
+                    for folder in folder_names:
+                        folder_name = folder.rstrip("/")
+                        structure["folders"][folder_name] = {"file_count": "?", "folders": "..."}
+
+                return structure
+
+            result = await explore_folder("", 0)
 
         # =====================================================================
         # OMNISEARCH PLUGIN
