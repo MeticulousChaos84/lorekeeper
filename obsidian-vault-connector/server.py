@@ -447,6 +447,13 @@ async def list_tools() -> list[Tool]:
                             "Characters of context around each match. Default 50. "
                             "Smaller = faster/lighter responses."
                         )
+                    },
+                    "max_matches_per_file": {
+                        "type": "number",
+                        "description": (
+                            "Maximum matches to show per file. Default 3. "
+                            "A single file can have hundreds of matches - this caps it."
+                        )
                     }
                 },
                 "required": ["query"]
@@ -626,6 +633,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
             limit = arguments.get("limit", 10)
             # Default context of 50 chars - enough to understand, not enough to overwhelm
             context_length = arguments.get("context_length", 50)
+            # Max matches per file - a single file can have hundreds of matches!
+            max_matches_per_file = arguments.get("max_matches_per_file", 3)
 
             # Simple search uses POST with query params in URL (weird but that's the API)
             # See OpenAPI spec: POST /search/simple/ with ?query=... parameter
@@ -638,11 +647,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> CallToolResult:
             # This is where we prevent the token explosion!
             if isinstance(raw_result, list):
                 # Results come sorted by relevance score, so truncating keeps the best
-                result = raw_result[:limit]
+                truncated = raw_result[:limit]
+
+                # ALSO truncate matches within each file - this is where the real bloat is!
+                for item in truncated:
+                    if "matches" in item and len(item["matches"]) > max_matches_per_file:
+                        total_matches = len(item["matches"])
+                        item["matches"] = item["matches"][:max_matches_per_file]
+                        item["matches_note"] = f"Showing {max_matches_per_file} of {total_matches} matches in this file"
+
+                result = truncated
                 # Add metadata so Gale knows if there were more results
                 if len(raw_result) > limit:
                     result.append({
-                        "note": f"Showing {limit} of {len(raw_result)} total matches. "
+                        "note": f"Showing {limit} of {len(raw_result)} total files. "
                                 f"Increase limit parameter to see more."
                     })
             else:
